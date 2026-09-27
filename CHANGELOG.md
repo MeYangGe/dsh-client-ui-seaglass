@@ -2,6 +2,14 @@
 
 ## Unreleased
 
+### v1.7.0
+
+- **适配：DSH `0.1.7-rc.2`，修复「装上就报错」的两处根因**——
+- **修复一：客户端插件卡在 `pending (waiting for service: settingsScope)`，整页报 `web boot: 1 entry did not activate`**——0.1.7 重构了整个设置通道：浏览器端的 `settingsScope` 服务与 Host 端的 `settings.register(ns, schema)` 全部移除，取而代之的是「插件自己的 `Config` 导出 + 按配置条目 id 寻址的 `ctx.configForms.get(entryId)`」。迁移：客户端 `inject` 里 `settingsScope` → `configForms`；`ctx.settingsScope.bind({ namespace })` → `ctx.configForms.get(AQUA_SETTINGS_NAMESPACE)`（快照 `status/value/user` 与 `set/subscribe` 形状不变）；Host 端不再调用任何注册 API，改为导出 `Config = AquaSettingsSchema`（条目 schema 由 `entry.fiber.runtime.Config` 读取）；命名空间常量 `ui-aqua` → `ui-seaglass`（= 本包 `cordis.patch.yml` 插入行的条目 id，也是 configForms 的寻址键）；`enabled` 字段补 `.volatile()`（`SettingsForms` 拒绝非 volatile 写入，`@deepseek-ai/schemastery` 同步升 `~3.18.4`——`volatile()` API 自 3.18.3 才有）
+- **修复二：新装环境（无 localStorage 首选项）下客户端插件整层崩溃 `ReferenceError: writeEnabled is not defined`**——`src/client/index.ts` 的设置镜像调用了 `writeEnabled`，但它只是 `theme-layer.ts` 的模块私有函数、从未导出：一旦镜像走到「读 Host 快照」分支（清空 localStorage 或新机器），打包产物里没有任何 `writeEnabled` 定义可解析。修复：`writeEnabled` 改为从 `theme-layer.ts` 正式导出
+- **修复三：图标组件更名**——`IconCheckOutline16` 在 0.1.7 的 `@deepseek-ai/dsh-client-ui-primitives` 里已不存在（图标体系改为 `Regular`/`Medium` 双描边档），6 处引用全部改为 `IconCheckOutlineRegular`（默认 16px 绘制尺寸不变）
+- **连带更新**：peerDependencies 升为 `>=0.1.7-rc.2`（optional 不变，新增 `dsh-client-ui-slots`/`dsh-client-ui-primitives` 两个种子包声明），新增 `engines.dsh` 下限；锁文件与新解析的 0.1.7-rc.2 包同步；`pnpm-workspace.yaml` 的 `minimumReleaseAgeExclude` 换为新解析集合；README 适配标注同步。实测（DSH 0.1.7-rc.2 隔离 profile）：插件正常激活，玻璃主题生效，设置页「Seaglass」分节完整渲染（主开关/模式/磨砂/背景/装饰/字体全量旋钮），主开关即时切换玻璃层，Host 端经 `configForms` → `SettingsForms` → profile patch 双向持久化（`enabled: false`/`true` 落盘可查），清空 localStorage 后新浏览器按 Host 持久值还原，全程零控制台报错
+
 ### v1.6.7
 
 - **适配：DSH `0.1.5-rc.1`**——逐项核对新版客户端面，源码零改动：客户端 shell 模块表仍内置 `@deepseek-ai/dsh-client-store`（`defineStore({ init, actions })` 形状不变）与 `@deepseek-ai/dsh-client-ui-slots`（`ctx.slots.inject/register` 槽位协议不变）；`ctx.theme`（`getTheme().active.colorScheme`、`theme/change`）与 `overrideTokens(source, tokens)` 的 `{ light, dark }` 成对值校验同现签名一致（主题本就按成对值编写）；`ctx.locale.register/bind`、`ctx.settingsScope.bind`、服务端 `settings.register(ns, schema)`、`@deepseek-ai/dsh-invariants` 的 `InvariantInstaller` 全部未变；`dsh.bundle.patch`（cordis.patch.yml）与 `dsh.client`（platform/inject）声明机制仍在；主题覆盖的 `--dsw-alias-*` 别名 token 在新版样式表中全部存在；schemastery 同为 3.18.2。peerDependencies 升级为 `^0.1.5-rc.2`（semver 的 prerelease 匹配规则使 `^0.1.2-rc.1` 不满足 0.1.5-rc.2——prerelease 只匹配同 `[major, minor, patch]` 元组；peer 均为 optional，旧宿主下解析失败也不阻塞安装），README 适配版本标注同步

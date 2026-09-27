@@ -18,14 +18,14 @@ import type { AquaSettings } from '../aqua-settings.ts'
 import { AquaAppearanceRow, type AquaAppearanceRowInjected } from './AquaAppearanceRow.tsx'
 import { createAquaRowStore, type AquaSettingsPayload } from './settings-store.ts'
 import { en, NS, zh } from './locales.ts'
-import { AQUA_ENABLED_KEY, AquaLayer } from './theme-layer.ts'
+import { AQUA_ENABLED_KEY, writeEnabled, AquaLayer } from './theme-layer.ts'
 // Side-effect imports: the theme-layer stylesheet (unloaded with the plugin)
 // and the self-hosted Space Grotesk @font-face (no shell dependency).
 import './aqua.module.css'
 import './fonts.module.css'
 
-/** Required services: theme override stack plus the settings-card surfaces. */
-export const inject = ['theme', 'slots', 'locale', 'settingsScope']
+/** Required services: theme override stack, the settings surfaces, and the Host config-forms mirror. */
+export const inject = ['theme', 'slots', 'locale', 'configForms']
 
 /**
  * Read the pre-settings-namespace enable flag without confusing an absent
@@ -48,17 +48,16 @@ export function apply(ctx: Context): void {
   ctx.effect(() => ctx.locale.register(NS, { zh, en }), 'ui-aqua: settings dictionaries')
 
   // The layer owns its lifecycle: enable flag, token stack, and CSS attribute
-  // are all effects released on disable/dispose.
+  // are all effects released on disable/dispose. The durable flag rides the
+  // plugin entry's Host config form (keyed by the profile entry id).
   const layer = new AquaLayer(ctx)
-  const settings = ctx.settingsScope.bind<AquaSettings>({ namespace: AQUA_SETTINGS_NAMESPACE })
+  const settings = ctx.configForms.get<AquaSettings>(AQUA_SETTINGS_NAMESPACE)
   let legacyMigrationAttempted = false
   const syncHostEnabled = (): void => {
-    // localStorage is the DURABLE authority for the enable flag: the Host
-    // settings channel for this namespace does not currently persist (the
-    // set call is silently dropped, so a stale Host snapshot re-applies its
-    // old value on every reload and the theme appears to not stay on). The
-    // in-session write still goes out; it is just no longer TRUSTED over
-    // the value the user last chose on this machine.
+    // localStorage stays the DURABLE authority for the enable flag (a
+    // client-only visual preference, per machine): the Host config form
+    // mirrors the same choice for fresh machines, but a local choice always
+    // wins over a stale Host snapshot so the theme never flips on reload.
     const remembered = readLegacyEnabled()
     if (remembered !== undefined) {
       legacyMigrationAttempted = true

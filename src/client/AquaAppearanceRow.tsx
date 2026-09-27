@@ -8,7 +8,7 @@
  * page collapses to the switch plus a hint.
  */
 import { useRef } from 'react'
-import { IconCheckOutline16 } from '@deepseek-ai/dsh-client-ui-primitives'
+import { IconCheckOutlineRegular } from '@deepseek-ai/dsh-client-ui-primitives'
 import type { PropsLocale, PropsRuntime, PropsStore } from '@deepseek-ai/dsh-client-ui-slots'
 import { fileToDataUrl, FontPicker, Knob, Segmented, BUILTIN_CJK_FONTS, BUILTIN_LATIN_FONTS } from './AquaControls.tsx'
 import { loadVideoHandle, saveVideoBlob, saveVideoHandle } from './wallpaper-store.ts'
@@ -193,7 +193,7 @@ const codeFrost = useStore(s => s.codeFrost)
         onClick={() => { setEnabled(!enabled) }}
       >
         <span className={css.check}>
-          {enabled && <IconCheckOutline16 />}
+          {enabled && <IconCheckOutlineRegular />}
         </span>
         {enabled ? t('aqua.enable') : t('aqua.disable')}
       </button>
@@ -366,7 +366,7 @@ const codeFrost = useStore(s => s.codeFrost)
               onClick={() => { setWhale(!whale) }}
             >
               <span className={css.check}>
-                {whale && <IconCheckOutline16 />}
+                {whale && <IconCheckOutlineRegular />}
               </span>
               {whale ? t('aqua.enable') : t('aqua.disable')}
             </button>
@@ -380,7 +380,7 @@ const codeFrost = useStore(s => s.codeFrost)
               onClick={() => { setCritters(!critters) }}
             >
               <span className={css.check}>
-                {critters && <IconCheckOutline16 />}
+                {critters && <IconCheckOutlineRegular />}
               </span>
               {critters ? t('aqua.enable') : t('aqua.disable')}
             </button>
@@ -394,7 +394,7 @@ const codeFrost = useStore(s => s.codeFrost)
               onClick={() => { setMesh(!mesh) }}
             >
               <span className={css.check}>
-                {mesh && <IconCheckOutline16 />}
+                {mesh && <IconCheckOutlineRegular />}
               </span>
               {mesh ? t('aqua.enable') : t('aqua.disable')}
             </button>
@@ -416,7 +416,7 @@ const codeFrost = useStore(s => s.codeFrost)
                 onClick={() => { setSpotlight(!spotlight) }}
               >
                 <span className={css.check}>
-                  {spotlight && <IconCheckOutline16 />}
+                  {spotlight && <IconCheckOutlineRegular />}
                 </span>
                 {spotlight ? t('aqua.enable') : t('aqua.disable')}
               </button>
@@ -430,7 +430,7 @@ const codeFrost = useStore(s => s.codeFrost)
                 onClick={() => { setPress(!press) }}
               >
                 <span className={css.check}>
-                  {press && <IconCheckOutline16 />}
+                  {press && <IconCheckOutlineRegular />}
                 </span>
                 {press ? t('aqua.enable') : t('aqua.disable')}
               </button>

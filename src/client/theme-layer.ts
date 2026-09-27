@@ -231,8 +231,11 @@ function readEnabled(): boolean {
   }
 }
 
-/** Persist the enable flag (storage failures keep the in-memory state). */
-function writeEnabled(value: boolean): void {
+/**
+ * Persist the enable flag (storage failures keep the in-memory state).
+ * Exported: the settings mirror in the plugin body writes through it too.
+ */
+export function writeEnabled(value: boolean): void {
   try {
     localStorage.setItem(AQUA_ENABLED_KEY, String(value))
   } catch {
