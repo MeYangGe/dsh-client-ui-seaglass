@@ -281,7 +281,11 @@
 /* Ambient marine life: brand-fish silhouettes, shrimp, bubbles, plankton.
    Positions, sizes, and per-critter timing arrive inline from the plugin
    markup. The critters toggle hides the whole group. */
-[data-dsh-aqua] [data-dsh-aqua-ambient][data-critters='off'] [data-aqua-critter] {
+[data-dsh-aqua] [data-dsh-aqua-ambient][data-critters='off'] [data-aqua-critter]:not([data-aqua-critter='emblem']) {
+  display: none;
+}
+
+[data-dsh-aqua] [data-dsh-aqua-ambient][data-emblem='off'] [data-aqua-critter='emblem'] {
   display: none;
 }
 
@@ -289,6 +293,15 @@
   position: absolute;
   color: #7ea4df;
   opacity: 0.22;
+}
+
+[data-dsh-aqua] [data-aqua-critter='emblem'] {
+  color: #ffd700;
+  opacity: 0.38;
+  filter: drop-shadow(0 0 10px rgba(255, 215, 0, 0.45));
+  animation: dsh-aqua-emblem-float 8s ease-in-out infinite;
+  pointer-events: none;
+  z-index: 2;
 }
 
 [data-dsh-aqua] [data-aqua-critter='fish'] {
@@ -336,6 +349,21 @@
 @keyframes dsh-aqua-plankton {
   0%, 100% { opacity: 0.1; }
   50% { opacity: 0.38; }
+}
+
+@keyframes dsh-aqua-emblem-float {
+  0% {
+    transform: translate3d(0, 0, 0) rotate(0deg);
+  }
+  30% {
+    transform: translate3d(-12px, -18px, 0) rotate(-2deg);
+  }
+  70% {
+    transform: translate3d(-8px, 10px, 0) rotate(1.5deg);
+  }
+  100% {
+    transform: translate3d(0, 0, 0) rotate(0deg);
+  }
 }
 
 /* ---------- Corner language: 14px surfaces, 10px controls, 8px atoms.

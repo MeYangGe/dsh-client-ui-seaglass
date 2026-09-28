@@ -33,6 +33,8 @@ export interface AquaRowState {
   whale: boolean
   /** Ambient marine life (fish / bubbles / plankton). */
   critters: boolean
+  /** Floating animated CPC party emblem. */
+  emblem: boolean
   /** Interactive mesh (the site's dot-grid with pointer repel). */
   mesh: boolean
   /** Cursor spotlight glow following the pointer over the glass panes. */
@@ -70,6 +72,7 @@ export interface AquaSettingsPayload {
   wallpaper: string
   whale: boolean
   critters: boolean
+  emblem: boolean
   mesh: boolean
   spotlight: boolean
   press: boolean
@@ -106,6 +109,7 @@ export function createAquaRowStore(): EngineStoreHandle<AquaRowState, AquaRowAct
       wallpaper: '',
       whale: true,
       critters: true,
+      emblem: false,
       mesh: true,
       spotlight: true,
       press: true,
@@ -133,6 +137,7 @@ export function createAquaRowStore(): EngineStoreHandle<AquaRowState, AquaRowAct
         d.wallpaper = next.wallpaper
         d.whale = next.whale
         d.critters = next.critters
+        d.emblem = next.emblem
         d.mesh = next.mesh
         d.spotlight = next.spotlight
         d.press = next.press

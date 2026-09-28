@@ -49,6 +49,8 @@ export interface AquaAppearanceRowInjected {
   setWhale: (value: boolean) => void
   /** Set the ambient marine-life flag. */
   setCritters: (value: boolean) => void
+  /** Set the party emblem flag. */
+  setEmblem: (value: boolean) => void
   /** Set the interactive-mesh flag. */
   setMesh: (value: boolean) => void
   /** Set the cursor-spotlight flag. */
@@ -84,7 +86,7 @@ export type AquaAppearanceRowComponentProps =
 export function AquaAppearanceRow(props: AquaAppearanceRowComponentProps) {
   const {
     t, setEnabled, setMode, setBlur, setFrost, setCodeFrost, setFluidHue, setFluidDepth, setBgBrightness,
-    setBackground, setWallpaper, setWhale, setCritters, setMesh, setSpotlight, setPress,
+    setBackground, setWallpaper, setWhale, setCritters, setEmblem, setMesh, setSpotlight, setPress,
     setWallpaperBlur, setWallpaperFrost, setVideoBlur, setVideoBrightness, setFontLatin, setFontCjk,
     authorizeVideo, useStore,
   } = props
@@ -100,6 +102,7 @@ const codeFrost = useStore(s => s.codeFrost)
   const background = useStore(s => s.background)
   const whale = useStore(s => s.whale)
   const critters = useStore(s => s.critters)
+  const emblem = useStore(s => s.emblem)
   const mesh = useStore(s => s.mesh)
   const spotlight = useStore(s => s.spotlight)
   const press = useStore(s => s.press)
@@ -391,6 +394,20 @@ const codeFrost = useStore(s => s.codeFrost)
                 {critters && <IconCheck />}
               </span>
               {critters ? t('aqua.enable') : t('aqua.disable')}
+            </button>
+          </div>
+          <div className={css.row}>
+            <span className={css.rowLabel}>{t('aqua.emblem')}</span>
+            <button
+              type="button"
+              className={emblem ? css.toggleOn : css.toggle}
+              aria-pressed={emblem}
+              onClick={() => { setEmblem(!emblem) }}
+            >
+              <span className={css.check}>
+                {emblem && <IconCheck />}
+              </span>
+              {emblem ? t('aqua.enable') : t('aqua.disable')}
             </button>
           </div>
           <div className={css.row}>

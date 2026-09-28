@@ -64,6 +64,14 @@ function plankton(style: string): string {
   return svg('plankton', '0 0 3 3', 3, style, '<circle cx="1.5" cy="1.5" r="1.5" fill="currentColor"/>')
 }
 
+/** Standard Chinese Communist Party Emblem markup */
+function cpcEmblem(style: string, width: number): string {
+  const hammer = '<path d="M4 14l7.923966-7.923966A5.315073 5.315073 0 0 0 17 5l2.5 2.5-4 4L33 29l-4 4-17.5-17.5-3 3z"/>'
+  const sickle = '<path d="M4.5 22.5a16.62077 16.62077 0 0 0 12 5.12077A11.12077 11.12077 0 0 0 27.62077 16.5 16.62077 16.62077 0 0 0 17 1a16 16 0 0 1 0 32 18 18 0 0 1-14.979984-8.020016z"/>'
+  const handle = '<path d="M3 29l2-2 2 2-2 2z"/><circle cx="3.5" cy="30.5" r="2.5"/>'
+  return svg('emblem', '1 1 32 32', width, style, hammer + sickle + handle)
+}
+
 /**
  * The complete ambient scene markup: one fixed, click-transparent container
  * the layer prepends to <body> while enabled and removes on disable. The
@@ -71,6 +79,7 @@ function plankton(style: string): string {
  */
 export const AMBIENT_SCENE = [
   '<canvas data-dsh-aqua-fluid-canvas></canvas>',
+  cpcEmblem('top:18%;right:12%;animation-duration:8s', 72),
   fish('top:22%;left:58%;animation-duration:9s', 30),
   fishLeft('top:36%;left:10%;animation-duration:14s;animation-delay:-4s', 20),
   fish('top:64%;left:76%;animation-duration:19s;animation-delay:-9s;opacity:0.55', 14),
