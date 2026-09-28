@@ -831,7 +831,10 @@ export class AquaLayer {
     if (value === this.settings.emblem) return
     this.settings.emblem = value
     writeEmblem(value)
-    if (this.enabled) this.syncEmblem()
+    if (this.enabled) {
+      this.syncEmblem()
+      this.applyFluidPalettes()
+    }
   }
 
   /** Set the interactive-mesh flag (dot-grid decoration). */
@@ -1208,6 +1211,24 @@ export class AquaLayer {
   }
 
   private fluidParams(): FluidParams {
+    if (this.settings.emblem) {
+      // 中国红（China Red）流体配色
+      // 深色模式：艳丽明亮中国红(#e60012)与醇厚朱红；浅色模式：明朗典雅珊瑚朱砂
+      if (this.dark) {
+        return {
+          ...SITE_FLUID_PARAMS,
+          color1: '#e60012',
+          color2: '#99000a',
+          color3: '#2a0407',
+        }
+      }
+      return {
+        ...SITE_FLUID_PARAMS,
+        color1: '#de2910',
+        color2: '#f07c70',
+        color3: '#faeae8',
+      }
+    }
     // Continuous hue + depth drive the palette through HSL interpolation —
     // the depth lives in the colors, so the canvas needs no global filter.
     return { ...SITE_FLUID_PARAMS, ...fluidToneColors(this.dark, this.settings.fluidHue, this.settings.fluidDepth) }
