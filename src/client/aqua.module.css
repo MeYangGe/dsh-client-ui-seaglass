@@ -38,6 +38,13 @@
   background: transparent;
 }
 
+/* Windows desktop: the custom-titlebar center column paints an opaque bg-base slab
+   over the ambient layer. Lift it so the fluid reaches the conversation area. */
+[data-dsh-aqua][data-dsh-aqua] [class*='centerCol'],
+[data-dsh-aqua][data-dsh-aqua] [class*='rightbarCol'] {
+  background: transparent;
+}
+
 [data-dsh-aqua] [data-phase],
 [data-dsh-aqua] [data-dsh-details] {
   background: transparent;
