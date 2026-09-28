@@ -408,6 +408,18 @@ const codeFrost = useStore(s => s.codeFrost)
               </span>
               {critters ? t('aqua.enable') : t('aqua.disable')}
             </button>
+            <span className={css.inlineLabel} style={{ marginLeft: 16 }}>{t('aqua.emblemCritters')}</span>
+            <button
+              type="button"
+              className={emblemCritters ? css.toggleOn : css.toggle}
+              aria-pressed={emblemCritters}
+              onClick={() => { setEmblemCritters(!emblemCritters) }}
+            >
+              <span className={css.check}>
+                {emblemCritters && <IconCheck />}
+              </span>
+              {emblemCritters ? t('aqua.enable') : t('aqua.disable')}
+            </button>
           </div>
           <div className={css.row}>
             <span className={css.rowLabel}>{t('aqua.mesh')}</span>

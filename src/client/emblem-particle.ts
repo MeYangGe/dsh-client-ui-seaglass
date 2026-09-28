@@ -223,12 +223,10 @@ export function mountEmblem(host: HTMLElement, dark: boolean): EmblemHandle {
       const alpha = p.opacity * (baseAlpha + glow) * shimmer * Math.min(vLight, 1.2)
 
       // Rich gold hues: R: 255, G: 215, B: 0 / warm gold
-      const gr = 1.0
-      const gg = darkMode ? 0.82 : 0.72
-      const gb = darkMode ? 0.28 : 0.15
-      const r = Math.min(255, Math.round((gr * assembly + glow * 0.3) * vLight * 255))
-      const g = Math.min(255, Math.round((gg * assembly + glow * 0.2) * vLight * 255))
-      const b = Math.min(255, Math.round((gb * assembly + glow * 0.1) * vLight * 255))
+      // Pure China Red particles
+      const r = Math.min(255, Math.round((0.96 * assembly + glow * 0.2) * vLight * 255))
+      const g = Math.min(255, Math.round((0.06 * assembly + glow * 0.04) * vLight * 255))
+      const b = Math.min(255, Math.round((0.08 * assembly + glow * 0.04) * vLight * 255))
 
       if (alpha <= 0.004) continue
       ctx.fillStyle = `rgba(${r}, ${g}, ${b}, ${alpha.toFixed(3)})`
