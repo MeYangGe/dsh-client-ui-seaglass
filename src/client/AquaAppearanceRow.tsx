@@ -86,7 +86,7 @@ export type AquaAppearanceRowComponentProps =
 export function AquaAppearanceRow(props: AquaAppearanceRowComponentProps) {
   const {
     t, setEnabled, setMode, setBlur, setFrost, setCodeFrost, setFluidHue, setFluidDepth, setBgBrightness,
-    setBackground, setWallpaper, setWhale, setCritters, setEmblem, setMesh, setSpotlight, setPress,
+    setBackground, setWallpaper, setWhale, setCritters, setEmblem, setEmblemCritters, setMesh, setSpotlight, setPress,
     setWallpaperBlur, setWallpaperFrost, setVideoBlur, setVideoBrightness, setFontLatin, setFontCjk,
     authorizeVideo, useStore,
   } = props
@@ -103,6 +103,7 @@ const codeFrost = useStore(s => s.codeFrost)
   const whale = useStore(s => s.whale)
   const critters = useStore(s => s.critters)
   const emblem = useStore(s => s.emblem)
+  const emblemCritters = useStore(s => s.emblemCritters)
   const mesh = useStore(s => s.mesh)
   const spotlight = useStore(s => s.spotlight)
   const press = useStore(s => s.press)

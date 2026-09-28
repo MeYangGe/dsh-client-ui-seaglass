@@ -1,4 +1,4 @@
-/**
+﻿/**
  * Particle CPC Emblem: render the Chinese Communist Party Emblem as
  * interactive golden ambient particles in the chat area, faithfully
  * implementing the same 2D particle dynamics as the whale.

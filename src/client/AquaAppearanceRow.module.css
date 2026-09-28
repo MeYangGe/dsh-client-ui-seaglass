@@ -14,7 +14,17 @@
 .subGroup {
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 12px;
+  background: var(--dsw-alias-bg-layer-1, rgba(255, 255, 255, 0.04));
+  border: 1px solid var(--dsw-alias-border-l2, rgba(255, 255, 255, 0.08));
+  border-radius: 12px;
+  padding: 14px 16px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
+  transition: all 0.2s ease;
+}
+
+.subGroup:hover {
+  border-color: var(--dsw-alias-border-l1, rgba(255, 255, 255, 0.14));
 }
 
 .subTitle {
@@ -40,18 +50,20 @@
 
 .rowLabel {
   flex: none;
-  width: 92px;
+  width: 96px;
   font-size: 12px;
+  font-weight: 500;
   line-height: 18px;
-  color: var(--dsw-alias-label-secondary);
+  color: var(--dsw-alias-label-primary);
 }
 
 /* Short inline label next to a second toggle in the same row (critters). */
 .inlineLabel {
   flex: none;
   font-size: 12px;
+  font-weight: 500;
   line-height: 18px;
-  color: var(--dsw-alias-label-secondary);
+  color: var(--dsw-alias-label-primary);
 }
 
 /* Hints under a row/knob: indented to the control column (label 92 + gap 10)
@@ -87,25 +99,30 @@
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  height: 28px;
-  padding: 0 10px 0 6px;
+  height: 30px;
+  padding: 0 12px 0 8px;
   border: 1px solid var(--dsw-alias-border-l2);
-  border-radius: 14px;
-  background: transparent;
+  border-radius: 8px;
+  background: var(--dsw-alias-bg-layer-2);
   font-size: 12px;
+  font-weight: 500;
   line-height: 18px;
-  color: var(--dsw-alias-label-primary);
+  color: var(--dsw-alias-label-secondary);
   cursor: pointer;
+  transition: all 0.18s ease;
 }
 
 .toggle:hover {
+  border-color: var(--dsw-alias-border-l1);
   background: var(--dsw-alias-interactive-bg-hover);
+  color: var(--dsw-alias-label-primary);
 }
 
 .toggleOn {
-  border-color: transparent;
+  border-color: rgba(64, 158, 255, 0.4);
   background: var(--dsw-alias-state-business-tertiary);
   color: var(--dsw-alias-state-business-primary);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
 }
 
 .check {

@@ -337,6 +337,7 @@ const WALLPAPER_KEY = 'dsh.ui-aqua.wallpaper'
 const WHALE_KEY = 'dsh.ui-aqua.whale'
 const CRITTERS_KEY = 'dsh.ui-aqua.critters'
 const EMBLEM_KEY = 'dsh.ui-aqua.emblem'
+const EMBLEM_CRITTERS_KEY = 'dsh.ui-aqua.emblemCritters'
 const MESH_KEY = 'dsh.ui-aqua.mesh'
 const SPOTLIGHT_KEY = 'dsh.ui-aqua.spotlight'
 const PRESS_KEY = 'dsh.ui-aqua.press'
@@ -513,9 +514,24 @@ function readEmblem(): boolean {
 function writeEmblem(value: boolean): void {
   try {
     localStorage.setItem(EMBLEM_KEY, String(value))
+  } catch {}
+}
+
+/** Read the small emblem critters flag. */
+function readEmblemCritters(): boolean {
+  try {
+    const raw = localStorage.getItem(EMBLEM_CRITTERS_KEY)
+    return raw === null ? false : raw === 'true'
   } catch {
-    /* in-memory state still applies for this tab */
+    return false
   }
+}
+
+/** Persist the small emblem critters flag. */
+function writeEmblemCritters(value: boolean): void {
+  try {
+    localStorage.setItem(EMBLEM_CRITTERS_KEY, String(value))
+  } catch {}
 }
 
 /** Read the interactive-mesh flag (absent means on). */
@@ -622,7 +638,7 @@ export class AquaLayer {
           this.sync()
         }
         const key = event.key
-        if (key !== null && (key in NUMERIC_KEYS || key === BACKGROUND_KEY || key === WALLPAPER_KEY || key === MODE_KEY || key === WHALE_KEY || key === CRITTERS_KEY || key === EMBLEM_KEY || key === MESH_KEY || key === SPOTLIGHT_KEY || key === PRESS_KEY || key === FONT_LATIN_KEY || key === FONT_CJK_KEY)) {
+        if (key !== null && (key in NUMERIC_KEYS || key === BACKGROUND_KEY || key === WALLPAPER_KEY || key === MODE_KEY || key === WHALE_KEY || key === CRITTERS_KEY || key === EMBLEM_KEY || key === EMBLEM_CRITTERS_KEY || key === MESH_KEY || key === SPOTLIGHT_KEY || key === PRESS_KEY || key === FONT_LATIN_KEY || key === FONT_CJK_KEY)) {
           this.reloadSettings()
           if (this.enabled) { this.applySettings(); this.applyTokens(); this.applyFluidPalettes(); this.syncWhale() }
         }
@@ -700,6 +716,7 @@ export class AquaLayer {
       whale: readWhale(),
       critters: readCritters(),
       emblem: readEmblem(),
+      emblemCritters: readEmblemCritters(),
       mesh: readMesh(),
       spotlight: readSpotlight(),
       press: readPress(),
@@ -823,6 +840,14 @@ export class AquaLayer {
     if (value === this.settings.critters) return
     this.settings.critters = value
     writeCritters(value)
+    if (this.enabled) this.applySettings()
+  }
+
+  /** Set the small ambient emblem critters flag. */
+  setEmblemCritters(value: boolean): void {
+    if (value === this.settings.emblemCritters) return
+    this.settings.emblemCritters = value
+    writeEmblemCritters(value)
     if (this.enabled) this.applySettings()
   }
 
@@ -992,7 +1017,7 @@ export class AquaLayer {
     const ambient = document.querySelector<HTMLElement>('[data-dsh-aqua-ambient]')
     if (ambient !== null) ambient.dataset.background = this.settings.background
     if (ambient !== null) ambient.dataset.critters = this.settings.critters ? 'on' : 'off'
-    if (ambient !== null) ambient.dataset.emblem = this.settings.emblem ? 'on' : 'off'
+    if (ambient !== null) ambient.dataset.emblem = this.settings.emblemCritters ? 'on' : 'off'
     // The wallpaper may be an image or a video: images and small videos are
     // data URLs; large videos are `idb:<id>` markers (blob in IndexedDB);
     // File System Access videos are `fsa:<name>` markers (the handle lives

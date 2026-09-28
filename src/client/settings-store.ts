@@ -73,6 +73,7 @@ export interface AquaSettingsPayload {
   whale: boolean
   critters: boolean
   emblem: boolean
+  emblemCritters: boolean
   mesh: boolean
   spotlight: boolean
   press: boolean
@@ -110,6 +111,7 @@ export function createAquaRowStore(): EngineStoreHandle<AquaRowState, AquaRowAct
       whale: true,
       critters: true,
       emblem: false,
+      emblemCritters: false,
       mesh: true,
       spotlight: true,
       press: true,
@@ -138,6 +140,7 @@ export function createAquaRowStore(): EngineStoreHandle<AquaRowState, AquaRowAct
         d.whale = next.whale
         d.critters = next.critters
         d.emblem = next.emblem
+        d.emblemCritters = next.emblemCritters
         d.mesh = next.mesh
         d.spotlight = next.spotlight
         d.press = next.press
