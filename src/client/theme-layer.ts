@@ -20,6 +20,7 @@ import { deleteVideoBlob, loadVideoBlob, loadVideoHandle } from './wallpaper-sto
 import { startBubbleAnchor } from './bubble-anchor.ts'
 import { startSeamStamper } from './seam-stamper.ts'
 import { mountWhale, type WhaleHandle } from './whale.ts'
+import { mountEmblem, type EmblemHandle } from './emblem-particle.ts'
 import { mountMesh, type MeshHandle } from './mesh.ts'
 import { startSpotlight, SPOTLIGHT_ATTRIBUTE, PRESS_ATTRIBUTE } from './spotlight.ts'
 import { startScrollGuard } from './scroll-guard.ts'
@@ -601,6 +602,7 @@ export class AquaLayer {
   private bubbleDisposer: (() => void) | undefined
   private scrollGuardDisposer: (() => void) | undefined
   private whaleHandle: WhaleHandle | undefined
+  private emblemHandle: EmblemHandle | undefined
   private meshHandle: MeshHandle | undefined
   /** Object URL of the current large-video wallpaper (revoked on replace). */
   private videoObjectUrl: string | undefined
@@ -632,6 +634,7 @@ export class AquaLayer {
       this.themeListener = this.ctx.on('theme/change', () => {
         this.dark = this.resolveScheme()
         this.whaleHandle?.setDark(this.dark)
+        this.emblemHandle?.setDark(this.dark)
         if (this.enabled) {
           this.applySettings()
           this.applyFluidPalettes()
@@ -828,7 +831,7 @@ export class AquaLayer {
     if (value === this.settings.emblem) return
     this.settings.emblem = value
     writeEmblem(value)
-    if (this.enabled) this.applySettings()
+    if (this.enabled) this.syncEmblem()
   }
 
   /** Set the interactive-mesh flag (dot-grid decoration). */
@@ -1107,6 +1110,7 @@ export class AquaLayer {
     this.startBubbleFeed()
     this.startScrollGuardFeed()
     this.syncWhale()
+    this.syncEmblem()
     this.syncMesh()
   }
 
@@ -1120,6 +1124,19 @@ export class AquaLayer {
     } else {
       this.whaleHandle?.dispose()
       this.whaleHandle = undefined
+    }
+  }
+
+  /** Mount or drop the particle emblem to match enabled + the emblem flag. */
+  private syncEmblem(): void {
+    if (this.enabled && this.settings.emblem) {
+      if (this.emblemHandle !== undefined) return
+      const ambient = document.querySelector<HTMLElement>('[data-dsh-aqua-ambient]')
+      if (ambient === null) return
+      this.emblemHandle = mountEmblem(ambient, this.dark)
+    } else {
+      this.emblemHandle?.dispose()
+      this.emblemHandle = undefined
     }
   }
 
@@ -1152,6 +1169,8 @@ export class AquaLayer {
     this.scrollGuardDisposer = undefined
     this.whaleHandle?.dispose()
     this.whaleHandle = undefined
+    this.emblemHandle?.dispose()
+    this.emblemHandle = undefined
     this.meshHandle?.dispose()
     this.meshHandle = undefined
     this.tokenDisposer?.()

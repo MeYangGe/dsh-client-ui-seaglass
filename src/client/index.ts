@@ -154,6 +154,7 @@ export function apply(ctx: Context): void {
       wallpaper: s.wallpaper,
       whale: s.whale,
       critters: s.critters,
+      emblem: s.emblem,
       mesh: s.mesh,
       spotlight: s.spotlight,
       press: s.press,
@@ -220,6 +221,10 @@ export function apply(ctx: Context): void {
       },
       setCritters: (critters) => {
         layer.setCritters(critters)
+        sync()
+      },
+      setEmblem: (emblem) => {
+        layer.setEmblem(emblem)
         sync()
       },
       setMesh: (mesh) => {

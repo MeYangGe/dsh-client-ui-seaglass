@@ -381,6 +381,18 @@ const codeFrost = useStore(s => s.codeFrost)
               </span>
               {whale ? t('aqua.enable') : t('aqua.disable')}
             </button>
+            <span className={css.inlineLabel} style={{ marginLeft: 16 }}>{t('aqua.emblem')}</span>
+            <button
+              type="button"
+              className={emblem ? css.toggleOn : css.toggle}
+              aria-pressed={emblem}
+              onClick={() => { setEmblem(!emblem) }}
+            >
+              <span className={css.check}>
+                {emblem && <IconCheck />}
+              </span>
+              {emblem ? t('aqua.enable') : t('aqua.disable')}
+            </button>
           </div>
           <div className={css.row}>
             <span className={css.rowLabel}>{t('aqua.critters')}</span>
@@ -394,20 +406,6 @@ const codeFrost = useStore(s => s.codeFrost)
                 {critters && <IconCheck />}
               </span>
               {critters ? t('aqua.enable') : t('aqua.disable')}
-            </button>
-          </div>
-          <div className={css.row}>
-            <span className={css.rowLabel}>{t('aqua.emblem')}</span>
-            <button
-              type="button"
-              className={emblem ? css.toggleOn : css.toggle}
-              aria-pressed={emblem}
-              onClick={() => { setEmblem(!emblem) }}
-            >
-              <span className={css.check}>
-                {emblem && <IconCheck />}
-              </span>
-              {emblem ? t('aqua.enable') : t('aqua.disable')}
             </button>
           </div>
           <div className={css.row}>
