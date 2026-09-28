@@ -2,6 +2,15 @@
 
 ## Unreleased
 
+### v1.7.1
+
+- **适配：DSH 桌面端（DSHD v0.3.2，内置 harness `0.1.6-alpha.2`），修复「桌面端左侧功能栏正常、会话区不显示」**——同一份插件要同时活在两代设置通道上（0.1.6 的 `settingsScope`/`settings.register` 与 0.1.7 的 `configForms`/`Config` 导出互不相通），四处根因逐一修复
+- **修复一：客户端插件卡在 pending → 整页 boot 失败 → 桌面端不揭示会话区**——v1.7.0 把 `configForms` 声明成了硬激活依赖（`inject`），而它是 0.1.7 才有的服务：桌面端 vendored 的 0.1.6-alpha.2 只提供 `settingsScope`，条目永远等不到 → pending → 桌面 fork 的 boot 探针判定 `data-dshd-boot-status="failed"`、拒绝 `showHarness`，用户看到桌面自己的功能栏（左侧栏）正常、harness 会话区整块缺失。修复：`inject` 收窄为两代都有的 `['theme','slots','locale']`；设置镜像改为双代可选——`ctx.inject(['configForms'], …)` 与 `ctx.inject(['settingsScope'], …)` 两个作用域等待器各认各代服务（任一宿主恰好只存在其中一代），以同一张窄接口（`getSnapshot/subscribe/set/unset`；0.1.6 的 `SettingsScopeSnapshot` 与 0.1.7 的 `ConfigFormSnapshot` 的 `status/value/user` 字段与 `set/subscribe` 方法名一致）适配两代，后到者接管镜像。主题层的持久权威仍是 localStorage，镜像只做新浏览器同步，故激活永不阻塞
+- **修复二：设置页对勾图标在 0.1.6 渲染崩溃**——`IconCheckOutlineRegular` 是 0.1.7 的改名（0.1.6 只内置 `IconCheckOutline16`），旧名在 v1.7.0 已被全部替换。修复：双名同时导入 + 模块作用域择一（`IconCheckOutlineRegular ?? IconCheckOutline16`），两代种子表暴露哪个用哪个（默认 16px 绘制尺寸一致）
+- **修复三：Host 端命名空间注册按代恢复**——0.1.6 的 `settingsScope` 镜像对 Host 未注册的命名空间报 `unavailable`（新机器同步与 Host 持久化随之全失效），需要 Host 端 `settings.register(ns, schema)` 兜底；但 0.1.7 把 `settings` 服务名接管给了新的 SettingsForms（不再有 register），静态 `inject(['settings'])` 会把宿主半也卡死。修复：宿主半改为作用域等待器 + 运行时特征检测——`settings.register(ns, schema)` 只有 0.1.6 命名空间注册表才有，0.1.7 的 SettingsForms 没有该方法即安静跳过（0.1.7 的注册就是 `Config` 导出本身，保持不变）
+- **修复四（跨代数据链）：`.volatile()` 装饰在 0.1.6 上把设置值砸成 `{}`**——schemastery ≥3.18.4 把 volatile 字段解析成盒子引用：0.1.7 的 describe 会经 `plainConfig` 解包后送达明文；0.1.6 的设置服务把解析值直接序列化上线，盒子在线上退化为 `{}`，浏览器镜像按 `typeof value.enabled !== 'boolean'` 守卫直接放弃 → 新浏览器读不回 Host 持久值（0.1.7 不受影响，故 1.7.0 只在桌面端暴露）。修复：新增 `LegacyAquaSettingsSchema`（同字段、不带 volatile）专供 0.1.6 命名空间注册——0.1.6 的写入通道本就不以 volatile 为门槛；`Config` 导出保持 volatile 不变（0.1.7 的 `SettingsForms.write` 硬性拒绝非 volatile 字段）
+- **连带更新**：`engines.dsh` 与全部 DSH peerDependencies 下限放宽为 `>=0.1.6-alpha.2`（解除桌面端安装门槛）；README 双语适配标注同步。实测（隔离 profile 双向）：**0.1.6-alpha.2**（= 桌面端 v0.3.2 基线）插件正常激活（boot 零失败）、玻璃主题生效、设置页「Seaglass」分节全量渲染（旧名图标正常）、主开关双向即时切换、`settings.yaml` 双向落盘、清空 localStorage 后新浏览器按 Host 持久值还原；**0.1.7-rc.2** 全矩阵回归通过（激活/主题/设置页/双向开关/profile patch 落盘/新浏览器同步/零控制台报错）
+
 ### v1.7.0
 
 - **适配：DSH `0.1.7-rc.2`，修复「装上就报错」的两处根因**——

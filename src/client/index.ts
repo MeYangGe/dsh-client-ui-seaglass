@@ -1,13 +1,15 @@
 /**
  * Aqua client plugin body: the toggleable glassmorphism skin. Owns the durable
- * enable flag through the Host settings namespace, applies/retracts the theme
- * layer through {@link AquaLayer}, and registers one settings surface: a
- * dedicated "Seaglass" page in the settings nav (`settings.section`) — the
- * master switch at the top of the page (reachable in every deployment, even
- * when the Host does not serve the namespace) plus every glass knob and the
- * per-script font pickers. The Plugins-section card was removed: it duplicated
- * the master switch. One click on the master switch returns the stock UI
- * (every layer is an effect, disposed on flip).
+ * enable flag through the Host settings mirror (the entry's config form on
+ * 0.1.7+, the registered namespace scope on <=0.1.6 — see the adoption in
+ * {@link apply}), applies/retracts the theme layer through {@link AquaLayer},
+ * and registers one settings surface: a dedicated "Seaglass" page in the
+ * settings nav (`settings.section`) — the master switch at the top of the
+ * page (reachable in every deployment, even when the Host serves no settings
+ * mirror) plus every glass knob and the per-script font pickers. The
+ * Plugins-section card was removed: it duplicated the master switch. One
+ * click on the master switch returns the stock UI (every layer is an
+ * effect, disposed on flip).
  */
 import type { Context } from '@deepseek-ai/cordis'
 import type { BoundActions } from '@deepseek-ai/dsh-client-ui-slots'
@@ -24,8 +26,28 @@ import { AQUA_ENABLED_KEY, writeEnabled, AquaLayer } from './theme-layer.ts'
 import './aqua.module.css'
 import './fonts.module.css'
 
-/** Required services: theme override stack, the settings surfaces, and the Host config-forms mirror. */
-export const inject = ['theme', 'slots', 'locale', 'configForms']
+/**
+ * Required services: theme override stack and the settings surfaces. The
+ * settings mirror (configForms on 0.1.7+, settingsScope on <=0.1.6) is
+ * deliberately NOT a hard activation dependency — see the mirror adoption
+ * below — so one bundle activates across both settings eras.
+ */
+export const inject = ['theme', 'slots', 'locale']
+
+/**
+ * The Host settings mirror's reactive face — the intersection the mirror
+ * consumes. 0.1.7+ serves per-entry config forms (`configForms`, keyed by
+ * the profile entry id); <=0.1.6 served namespace scopes (`settingsScope`,
+ * keyed by the registered namespace). Both expose the same snapshot fields
+ * (`status`/`value`/`user`) and the same mutation methods, so one narrow
+ * interface covers both eras.
+ */
+interface AquaSettingsForm {
+  getSnapshot(): { status: 'loading' | 'ready' | 'unavailable', value?: AquaSettings, user?: unknown }
+  subscribe(listener: () => void): () => void
+  set(field: string, value: unknown): Promise<unknown>
+  unset(field: string): Promise<unknown>
+}
 
 /**
  * Read the pre-settings-namespace enable flag without confusing an absent
@@ -49,21 +71,22 @@ export function apply(ctx: Context): void {
 
   // The layer owns its lifecycle: enable flag, token stack, and CSS attribute
   // are all effects released on disable/dispose. The durable flag rides the
-  // plugin entry's Host config form (keyed by the profile entry id).
+  // Host settings mirror when one exists (0.1.7+: the entry's config form;
+  // <=0.1.6: the registered namespace scope).
   const layer = new AquaLayer(ctx)
-  const settings = ctx.configForms.get<AquaSettings>(AQUA_SETTINGS_NAMESPACE)
   let legacyMigrationAttempted = false
   const syncHostEnabled = (): void => {
     // localStorage stays the DURABLE authority for the enable flag (a
-    // client-only visual preference, per machine): the Host config form
-    // mirrors the same choice for fresh machines, but a local choice always
-    // wins over a stale Host snapshot so the theme never flips on reload.
+    // client-only visual preference, per machine): the Host mirror carries
+    // the same choice for fresh machines, but a local choice always wins
+    // over a stale Host snapshot so the theme never flips on reload.
     const remembered = readLegacyEnabled()
     if (remembered !== undefined) {
       legacyMigrationAttempted = true
       layer.setEnabled(remembered)
       return
     }
+    if (settings === undefined) return
     const snapshot = settings.getSnapshot()
     if (snapshot.status !== 'ready' || typeof snapshot.value?.enabled !== 'boolean') return
 
@@ -82,11 +105,33 @@ export function apply(ctx: Context): void {
     layer.setEnabled(snapshot.value.enabled)
     writeEnabled(snapshot.value.enabled)
   }
-  ctx.effect(() => {
-    const dispose = settings.subscribe(syncHostEnabled)
+
+  // The settings mirror is OPTIONAL at activation: the theme layer runs on
+  // localStorage alone, and the mirror only syncs fresh machines. Exactly
+  // one era service exists on any given host, so the entry must not hard
+  // depend on either name — waiting for a service the host will never
+  // provide strands the entry (0.1.7 hosts never provide `settingsScope`;
+  // <=0.1.6 hosts never provide `configForms`). Each scoped waiter adopts
+  // whichever form its era serves; re-adoption replaces the live mirror.
+  let settings: AquaSettingsForm | undefined
+  let mirrorDispose: (() => void) | undefined
+  const adoptSettingsForm = (form: AquaSettingsForm): void => {
+    settings = form
+    mirrorDispose?.()
+    mirrorDispose = form.subscribe(syncHostEnabled)
     syncHostEnabled()
-    return dispose
-  }, 'ui-aqua: settings mirror')
+  }
+  ctx.effect(() => () => { mirrorDispose?.() }, 'ui-aqua: settings mirror')
+  ctx.inject(['configForms'], (scope) => {
+    adoptSettingsForm(scope.configForms.get<AquaSettings>(AQUA_SETTINGS_NAMESPACE))
+  })
+  ctx.inject(
+    ['settingsScope'],
+    (scope: Context & { settingsScope?: { bind(spec: { namespace: string }): unknown } }) => {
+      if (scope.settingsScope === undefined) return
+      adoptSettingsForm(scope.settingsScope.bind({ namespace: AQUA_SETTINGS_NAMESPACE }) as AquaSettingsForm)
+    },
+  )
 
   // One store mirror of the layer state: the settings section's Appearance
   // row (master switch + every knob).
@@ -215,7 +260,7 @@ export function apply(ctx: Context): void {
       },
       setEnabled: (enabled) => {
         layer.setEnabled(enabled)
-        void settings.set('enabled', enabled)
+        void settings?.set('enabled', enabled)
         sync()
       },
       authorizeVideo: () => {

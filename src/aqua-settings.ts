@@ -26,3 +26,18 @@ export const DEFAULT_ENABLED = true
 export const AquaSettingsSchema = z.object({
   [AQUA_ENABLED_FIELD]: z.boolean().default(DEFAULT_ENABLED).volatile(),
 })
+
+/**
+ * The same section for the <=0.1.6-alpha.2 namespace registry, without the
+ * volatile annotation. Schemastery resolves a volatile field into a boxed
+ * reference, and the 0.1.6 settings service serializes the resolved value
+ * straight onto the describe wire, where the box degrades to `{}` — the
+ * browser mirror then cannot read the field back. The 0.1.7 form path is
+ * unaffected (it unwraps volatile boxes before serving values) and its
+ * write path demands the volatile mark, so only the legacy registration
+ * uses this plain copy; the 0.1.6 scope write path does not gate on
+ * volatile annotations.
+ */
+export const LegacyAquaSettingsSchema = z.object({
+  [AQUA_ENABLED_FIELD]: z.boolean().default(DEFAULT_ENABLED),
+})

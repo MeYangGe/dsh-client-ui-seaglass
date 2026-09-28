@@ -2,7 +2,7 @@
 
 English | [中文](README.md)
 
-> **Compatibility** — DSH `0.1.7-rc.2` · **Updated** 2026-09-27 · Plugin v1.7.0
+> **Compatibility** — DSH `0.1.6-alpha.2` – `0.1.7-rc.2` (incl. the DSHD desktop v0.3.2) · **Updated** 2026-09-27 · Plugin v1.7.1
 
 Seaglass is a highly customizable glassmorphism theme: it turns many surfaces into frosted-glass panes, and you can use your own images or videos as the backdrop. Switch the theme off and you are back to the stock UI — without changing a single line of DSH source. If you like the theme, feedback and PRs are welcome.
 

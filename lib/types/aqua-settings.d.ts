@@ -17,4 +17,12 @@ export declare const DEFAULT_ENABLED = true;
  * config values stay plain booleans.
  */
 export declare const AquaSettingsSchema: z<any>;
+/**
+ * The same section for the <=0.1.6-alpha.2 namespace registry, without the
+ * volatile annotation: schemastery resolves volatile fields into boxed
+ * references that the 0.1.6 describe wire flattens to `{}`, so the legacy
+ * registration serves this plain copy; the 0.1.6 scope write path does not
+ * gate on volatile annotations.
+ */
+export declare const LegacyAquaSettingsSchema: z<any>;
 //# sourceMappingURL=aqua-settings.d.ts.map
