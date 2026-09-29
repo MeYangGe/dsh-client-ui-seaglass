@@ -369,8 +369,8 @@ const codeFrost = useStore(s => s.codeFrost)
       <div className={css.subGroup}>
         <div className={css.subTitle}>{t('aqua.decorAmbient')}</div>
         <div className={css.controls}>
-          <div className={css.row} style={{ flexWrap: 'wrap', gap: '16px 24px' }}>
-            <div style={{ display: 'inline-flex', alignItems: 'center', gap: 10 }}>
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '14px 28px', alignItems: 'center' }}>
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 12 }}>
               <span className={css.rowLabel}>{t('aqua.whale')}</span>
               <button
                 type="button"
@@ -384,7 +384,7 @@ const codeFrost = useStore(s => s.codeFrost)
                 {whale ? t('aqua.enable') : t('aqua.disable')}
               </button>
             </div>
-            <div style={{ display: 'inline-flex', alignItems: 'center', gap: 10 }}>
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 12 }}>
               <span className={css.rowLabel}>{t('aqua.emblem')}</span>
               <button
                 type="button"
@@ -398,10 +398,7 @@ const codeFrost = useStore(s => s.codeFrost)
                 {emblem ? t('aqua.enable') : t('aqua.disable')}
               </button>
             </div>
-          </div>
-
-          <div className={css.row} style={{ flexWrap: 'wrap', gap: '16px 24px' }}>
-            <div style={{ display: 'inline-flex', alignItems: 'center', gap: 10 }}>
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 12 }}>
               <span className={css.rowLabel}>{t('aqua.critters')}</span>
               <button
                 type="button"
@@ -415,7 +412,7 @@ const codeFrost = useStore(s => s.codeFrost)
                 {critters ? t('aqua.enable') : t('aqua.disable')}
               </button>
             </div>
-            <div style={{ display: 'inline-flex', alignItems: 'center', gap: 10 }}>
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 12 }}>
               <span className={css.rowLabel}>{t('aqua.emblemCritters')}</span>
               <button
                 type="button"
@@ -431,19 +428,22 @@ const codeFrost = useStore(s => s.codeFrost)
             </div>
           </div>
 
-          <div className={css.row}>
-            <span className={css.rowLabel}>{t('aqua.mesh')}</span>
-            <button
-              type="button"
-              className={mesh ? css.toggleOn : css.toggle}
-              aria-pressed={mesh}
-              onClick={() => { setMesh(!mesh) }}
-            >
-              <span className={css.check}>
-                {mesh && <IconCheck />}
-              </span>
-              {mesh ? t('aqua.enable') : t('aqua.disable')}
-            </button>
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '14px 28px', alignItems: 'center', marginTop: 4 }}>
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 12 }}>
+              <span className={css.rowLabel}>{t('aqua.mesh')}</span>
+              <button
+                type="button"
+                className={mesh ? css.toggleOn : css.toggle}
+                aria-pressed={mesh}
+                onClick={() => { setMesh(!mesh) }}
+              >
+                <span className={css.check}>
+                  {mesh && <IconCheck />}
+                </span>
+                {mesh ? t('aqua.enable') : t('aqua.disable')}
+              </button>
+            </div>
+            <div></div>
           </div>
         </div>
       </div>

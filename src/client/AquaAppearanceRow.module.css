@@ -1,43 +1,39 @@
 ﻿/* Aqua settings section page: a page-top master switch row, then the titled
-   sub-groups (mode / glass material / background / decorations / fonts).
-   This is a standalone settings.page now — no trailing separator, the
-   section column owns the rhythm. */
+   sub-groups (mode / glass material / background / decorations / fonts). */
 
 .group {
   display: flex;
   flex-direction: column;
   gap: 16px;
-  padding: 10px 0 24px;
+  padding: 8px 0 24px;
 }
 
-/* One titled sub-group: title over its control stack. */
+/* One titled sub-group: modern frosted card with layered depth */
 .subGroup {
   display: flex;
   flex-direction: column;
   gap: 14px;
-  background: var(--dsw-alias-bg-layer-1, rgba(255, 255, 255, 0.05));
+  background: var(--dsw-alias-bg-layer-1, rgba(255, 255, 255, 0.04));
   border: 1px solid var(--dsw-alias-border-l2, rgba(255, 255, 255, 0.08));
-  border-radius: 14px;
-  padding: 16px 20px;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.04);
-  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
-  backdrop-filter: blur(12px);
+  border-radius: 12px;
+  padding: 16px 18px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.03);
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  backdrop-filter: blur(10px);
 }
 
 .subGroup:hover {
   border-color: var(--dsw-alias-border-l1, rgba(255, 255, 255, 0.16));
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.06);
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.05);
 }
 
 .subTitle {
   font-size: 13px;
   line-height: 20px;
   font-weight: 600;
-  letter-spacing: 0.3px;
   color: var(--dsw-alias-label-primary);
   display: flex;
   align-items: center;
-  gap: 6px;
 }
 
 /* Controls stack: one column of rows and knobs. */
@@ -47,7 +43,7 @@
   gap: 12px;
 }
 
-/* Label + segmented picker row (mode / backdrop source). */
+/* Label + control row */
 .row {
   display: flex;
   align-items: center;
@@ -57,32 +53,31 @@
 
 .rowLabel {
   flex: none;
-  width: 90px;
-  font-size: 13px;
+  width: 84px;
+  font-size: 12px;
   font-weight: 500;
   line-height: 20px;
-  color: var(--dsw-alias-label-primary);
+  color: var(--dsw-alias-label-secondary);
 }
 
 /* Short inline label next to a second toggle in the same row. */
 .inlineLabel {
   flex: none;
-  font-size: 13px;
+  font-size: 12px;
   font-weight: 500;
   line-height: 20px;
-  color: var(--dsw-alias-label-primary);
+  color: var(--dsw-alias-label-secondary);
 }
 
-/* Hints under a row/knob: indented to the control column */
+/* Hints under a row/knob */
 .rowHint {
   margin-top: -6px;
-  margin-left: 102px;
+  margin-left: 96px;
   font-size: 12px;
   line-height: 18px;
   color: var(--dsw-alias-label-tertiary);
 }
 
-/* Full-width hint under a label-less row */
 .groupHint {
   margin-top: -6px;
   font-size: 12px;
@@ -92,29 +87,29 @@
 
 .knobHint {
   margin-top: -6px;
-  margin-left: 102px;
+  margin-left: 96px;
   font-size: 12px;
   line-height: 18px;
   color: var(--dsw-alias-label-tertiary);
 }
 
-/* Boolean toggle pill, modern UI with clear feedback */
+/* Boolean toggle pill: standard DSH button height and aesthetics */
 .toggle,
 .toggleOn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: 6px;
-  min-width: 90px;
-  height: 32px;
+  min-width: 84px;
+  height: 30px;
   padding: 0 14px 0 10px;
-  border-radius: 8px;
+  border-radius: 6px;
   font-size: 12px;
   font-weight: 500;
   line-height: 20px;
   cursor: pointer;
   user-select: none;
-  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: all 0.16s ease;
 }
 
 .toggle {
@@ -125,22 +120,19 @@
 
 .toggle:hover {
   border-color: var(--dsw-alias-border-l1, rgba(255, 255, 255, 0.22));
-  background: var(--dsw-alias-interactive-bg-hover, rgba(255, 255, 255, 0.08));
+  background: var(--dsw-alias-interactive-bg-hover, rgba(255, 255, 255, 0.09));
   color: var(--dsw-alias-label-primary);
-  transform: translateY(-1px);
 }
 
 .toggleOn {
   border: 1px solid var(--dsw-alias-state-business-primary, #3b82f6);
   background: var(--dsw-alias-state-business-tertiary, rgba(59, 130, 246, 0.15));
   color: var(--dsw-alias-state-business-primary, #3b82f6);
-  box-shadow: 0 2px 8px rgba(59, 130, 246, 0.2);
-  transform: translateY(-1px);
+  box-shadow: 0 1px 4px rgba(59, 130, 246, 0.16);
 }
 
 .toggleOn:hover {
   background: var(--dsw-alias-state-business-tertiary, rgba(59, 130, 246, 0.22));
-  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.28);
 }
 
 .check {
@@ -161,8 +153,8 @@
 
 .knobLabel {
   flex: none;
-  width: 90px;
-  font-size: 13px;
+  width: 84px;
+  font-size: 12px;
   font-weight: 500;
   line-height: 20px;
   color: var(--dsw-alias-label-secondary);
@@ -184,9 +176,9 @@
 }
 
 .number {
-  width: 58px;
-  height: 28px;
-  padding: 0 8px;
+  width: 56px;
+  height: 26px;
+  padding: 0 6px;
   border: 1px solid var(--dsw-alias-border-l2, rgba(255, 255, 255, 0.1));
   border-radius: 6px;
   background: var(--dsw-alias-bg-layer-2, rgba(255, 255, 255, 0.04));
@@ -210,7 +202,7 @@
 
 .unit {
   flex: none;
-  width: 20px;
+  width: 18px;
   font-size: 12px;
   line-height: 20px;
   color: var(--dsw-alias-label-tertiary);
@@ -220,7 +212,7 @@
 .segmented {
   display: inline-flex;
   border: 1px solid var(--dsw-alias-border-l2, rgba(255, 255, 255, 0.12));
-  border-radius: 8px;
+  border-radius: 6px;
   padding: 2px;
   background: var(--dsw-alias-bg-layer-2, rgba(255, 255, 255, 0.04));
   gap: 2px;
@@ -228,17 +220,17 @@
 
 .seg,
 .segActive {
-  height: 28px;
-  padding: 0 16px;
+  height: 26px;
+  padding: 0 14px;
   border: none;
-  border-radius: 6px;
+  border-radius: 4px;
   background: transparent;
   font-size: 12px;
   font-weight: 500;
   line-height: 20px;
   color: var(--dsw-alias-label-secondary);
   cursor: pointer;
-  transition: all 0.18s ease;
+  transition: all 0.16s ease;
 }
 
 .seg:hover {
@@ -249,7 +241,7 @@
 .segActive {
   background: var(--dsw-alias-state-business-primary, #3b82f6);
   color: #ffffff;
-  box-shadow: 0 2px 6px rgba(59, 130, 246, 0.25);
+  box-shadow: 0 1px 4px rgba(59, 130, 246, 0.2);
 }
 
 /* Wallpaper picker: hidden file input + a ghost button. */
@@ -265,16 +257,16 @@
 
 .pickButton {
   height: 28px;
-  padding: 0 14px;
+  padding: 0 12px;
   border: 1px solid var(--dsw-alias-border-l2, rgba(255, 255, 255, 0.12));
-  border-radius: 8px;
+  border-radius: 6px;
   background: var(--dsw-alias-bg-layer-2, rgba(255, 255, 255, 0.04));
   font-size: 12px;
   font-weight: 500;
   line-height: 20px;
   color: var(--dsw-alias-label-primary);
   cursor: pointer;
-  transition: all 0.18s ease;
+  transition: all 0.16s ease;
 }
 
 .pickButton:hover {
@@ -285,16 +277,16 @@
 /* Delete-wallpaper ghost button: error-tinted, next to the picker. */
 .deleteButton {
   height: 28px;
-  padding: 0 14px;
+  padding: 0 12px;
   border: 1px solid rgba(239, 68, 68, 0.3);
-  border-radius: 8px;
+  border-radius: 6px;
   background: rgba(239, 68, 68, 0.08);
   font-size: 12px;
   font-weight: 500;
   line-height: 20px;
   color: var(--dsw-alias-label-error, #ef4444);
   cursor: pointer;
-  transition: all 0.18s ease;
+  transition: all 0.16s ease;
 }
 
 .deleteButton:hover {
@@ -313,11 +305,11 @@
 .fontSelect {
   border: 1px solid var(--dsw-alias-border-l2, rgba(255, 255, 255, 0.12));
   background: var(--dsw-alias-bg-layer-2, rgba(255, 255, 255, 0.04));
-  border-radius: 8px;
+  border-radius: 6px;
   min-width: 0;
   flex: 1;
   height: 28px;
-  padding: 0 10px;
+  padding: 0 8px;
   font-size: 12px;
   line-height: 20px;
   color: var(--dsw-alias-label-primary);
@@ -326,7 +318,7 @@
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  transition: all 0.18s ease;
+  transition: all 0.16s ease;
 }
 
 .fontSelect:hover {
@@ -347,7 +339,7 @@
   max-height: 240px;
   overflow: hidden;
   border: 1px solid rgba(19, 45, 83, 0.26);
-  border-radius: 10px;
+  border-radius: 8px;
   background: var(--dsh-aqua-glass-card-light);
   backdrop-filter: blur(var(--dsh-aqua-blur, 14px));
   box-shadow:
@@ -391,7 +383,7 @@ body[data-ds-dark-theme] .fontMenu {
   flex: none;
   border: none;
   background: transparent;
-  border-radius: 6px;
+  border-radius: 4px;
   padding: 5px 8px;
   font-size: 12px;
   line-height: 18px;

@@ -1,4 +1,4 @@
-/** `settings.aqua` namespace dictionaries (the settings-row copy). */
+﻿/** `settings.aqua` namespace dictionaries (the settings-row copy). */
 
 /** Dictionary namespace owned by this plugin. */
 export const NS = 'settings.aqua'
@@ -6,7 +6,7 @@ export const NS = 'settings.aqua'
 /** Simplified Chinese dictionary (the key-set source of truth). */
 export const zh = {
   'aqua.title': '玻璃主题',
-  'aqua.description': '全局玻璃质感，云母/兼容双模式，模糊度、磨砂度、背景与颜色都可自由调节',
+  'aqua.description': '全局玻璃质感，云母 / 兼容双模式，模糊度、磨砂度、背景与颜色都可自由调节',
   'aqua.enable': '开启',
   'aqua.disable': '关闭',
   'aqua.mode': '模式',
@@ -17,8 +17,7 @@ export const zh = {
   'aqua.decorHover': '悬停效果',
   'aqua.whale': '粒子鲸鱼',
   'aqua.critters': '动态小鱼',
-  'aqua.emblem': 'Particle emblem',
-  'aqua.emblemCritters': 'Ambient emblems',
+  'aqua.emblem': '粒子党徽',
   'aqua.emblemCritters': '动态小党徽',
   'aqua.mesh': '网状交互',
   'aqua.spotlight': '鼠标辉光',
@@ -43,7 +42,7 @@ export const zh = {
   'aqua.wallpaperFrost': '壁纸磨砂度',
   'aqua.videoBlur': '视频模糊度',
   'aqua.videoBrightness': '视频亮度',
-  'aqua.videoHint': '⚠️视频会自动压暗以保证文字清晰，可用模糊度和亮度调节；刷新后未自动播放时点一下“选择视频”即可恢复',
+  'aqua.videoHint': '⚠️ 视频会自动压暗以保证文字清晰，可用模糊度和亮度调节；刷新后未自动播放时点一下“选择视频”即可恢复',
   'aqua.nav': 'Seaglass 主题',
   'aqua.sectionDisabled': '主题未启用：打开上面的开关即可恢复玻璃质感界面',
   'aqua.fontGroup': '字体',
@@ -75,11 +74,12 @@ export const en = {
   'aqua.modeMica': 'Mica',
   'aqua.modeCompat': 'Compatibility',
   'aqua.materialGroup': 'Glass material',
-  'aqua.decorAmbient': 'Ambient',
+  'aqua.decorAmbient': 'Ambient decorations',
   'aqua.decorHover': 'Hover effects',
   'aqua.whale': 'Particle whale',
-  'aqua.critters': 'Drifting fish',
+  'aqua.critters': 'Ambient fish',
   'aqua.emblem': 'Particle emblem',
+  'aqua.emblemCritters': 'Ambient emblems',
   'aqua.mesh': 'Interactive mesh',
   'aqua.spotlight': 'Cursor glow',
   'aqua.press': 'Hover tilt',
