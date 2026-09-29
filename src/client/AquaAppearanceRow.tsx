@@ -1,6 +1,6 @@
-/**
+﻿/**
  * Aqua row registered as its OWN settings section (`settings.section`, id
- * `aqua`): the master switch up top, then every glass knob — mode (mica /
+ * `aqua`): the master switch up top, then every glass knob 鈥?mode (mica /
  * compatibility), blur/frost (mica mode only), fluid color, background
  * brightness, the backdrop source picker, the wallpaper picker with its two
  * knobs, and the per-script font pickers. Every write goes straight through
@@ -19,7 +19,7 @@ import css from './AquaAppearanceRow.module.css'
  * 0.1.7 renamed the icon set to stroke-variant names (`Regular`/`Medium`,
  * Regular defaulting to the same 16px edge); <=0.1.6-alpha.2 ships only the
  * legacy `*16` name. Import both and pick whichever the shell's seed table
- * exposes — the check marks render identically on either era.
+ * exposes 鈥?the check marks render identically on either era.
  */
 const IconCheck = IconCheckOutlineRegular ?? IconCheckOutline16
 
@@ -33,7 +33,7 @@ export interface AquaAppearanceRowInjected {
   setBlur: (value: number) => void
   /** Set the glass frost amount, 0-100. */
   setFrost: (value: number) => void
-  /** Set the code-surface frost amount, 0-100 — independent of the global frost. */
+  /** Set the code-surface frost amount, 0-100 鈥?independent of the global frost. */
   setCodeFrost: (value: number) => void
   /** Set the fluid hue, degrees (0-360, continuous). */
   setFluidHue: (value: number) => void
@@ -121,7 +121,7 @@ const codeFrost = useStore(s => s.codeFrost)
   // `data:video/` URLs.
   const isVideoWallpaper = wallpaper.startsWith('data:video/') || wallpaper.startsWith('idb:') || wallpaper.startsWith('fsa:')
 
-  /** Pick a video. Chromium: File System Access — the browser remembers the
+  /** Pick a video. Chromium: File System Access 鈥?the browser remembers the
    *  file authorization, so later visits re-read the ORIGINAL file with no
    *  storage copy. Other browsers fall back to the plain file input. */
   const pickVideo = (): void => {
@@ -137,7 +137,7 @@ const codeFrost = useStore(s => s.codeFrost)
           if (await saveVideoHandle(handle)) {
             setWallpaper(`fsa:${handle.name}`)
           } else {
-            // idb unavailable — degrade to the blob store / data URL path.
+            // idb unavailable 鈥?degrade to the blob store / data URL path.
             const file = await handle.getFile()
             void saveVideoBlob(file).then((id) => {
               if (id !== '') setWallpaper(id)
@@ -145,7 +145,7 @@ const codeFrost = useStore(s => s.codeFrost)
             })
           }
         } catch {
-          /* picker cancelled — keep current state */
+          /* picker cancelled 鈥?keep current state */
         }
       })()
     } else {
@@ -153,7 +153,7 @@ const codeFrost = useStore(s => s.codeFrost)
     }
   }
 
-  /** 选择视频 click: an fsa: video with stale permission re-authorizes in
+  /** 閫夋嫨瑙嗛 click: an fsa: video with stale permission re-authorizes in
    *  one click (no picker); anything else opens the picker. */
   const onChooseVideo = (): void => {
     if (wallpaper.startsWith('fsa:')) {
@@ -193,7 +193,7 @@ const codeFrost = useStore(s => s.codeFrost)
   const bgDisplay = Math.min(bgMax, Math.max(bgMin, bgBrightness))
 
   // Page master switch: the plugins-section card is only dispatched when
-  // the Host serves the namespace — this row keeps the toggle reachable
+  // the Host serves the namespace 鈥?this row keeps the toggle reachable
   // right here in every deployment.
   const masterRow = (
     <div className={css.row}>
@@ -225,7 +225,7 @@ const codeFrost = useStore(s => s.codeFrost)
   return (
     <div className={css.group}>
       {masterRow}
-      {/* 模式 */}
+      {/* 妯″紡 */}
       <div className={css.subGroup}>
         <div className={css.subTitle}>{t('aqua.mode')}</div>
         <div className={css.controls}>
@@ -243,7 +243,7 @@ const codeFrost = useStore(s => s.codeFrost)
         </div>
       </div>
 
-      {/* 玻璃材质：仅云母模式 */}
+      {/* 鐜荤拑鏉愯川锛氫粎浜戞瘝妯″紡 */}
       {mode === 'mica' && (
         <div className={css.subGroup}>
           <div className={css.subTitle}>{t('aqua.materialGroup')}</div>
@@ -255,7 +255,7 @@ const codeFrost = useStore(s => s.codeFrost)
         </div>
       )}
 
-      {/* 背景 */}
+      {/* 鑳屾櫙 */}
       <div className={css.subGroup}>
         <div className={css.subTitle}>{t('aqua.background')}</div>
         <div className={css.controls}>
@@ -273,7 +273,7 @@ const codeFrost = useStore(s => s.codeFrost)
 
           {background === 'fluid' && (
             <>
-              <Knob label={t('aqua.fluidHue')} value={fluidHue} min={0} max={360} step={1} unit="°" onChange={setFluidHue} />
+              <Knob label={t('aqua.fluidHue')} value={fluidHue} min={0} max={360} step={1} unit="掳" onChange={setFluidHue} />
               <Knob label={t('aqua.fluidDepth')} value={fluidDepth} min={0} max={100} step={1} unit="%" onChange={setFluidDepth} />
             </>
           )}
@@ -340,14 +340,14 @@ const codeFrost = useStore(s => s.codeFrost)
                 </div>
               </div>
               <div className={css.knobHint}>{t('aqua.wallpaperHint')}</div>
-              {/* 视频壁纸不支持模糊/磨砂调节（视频直接清晰播放） */}
+              {/* 瑙嗛澹佺焊涓嶆敮鎸佹ā绯?纾ㄧ爞璋冭妭锛堣棰戠洿鎺ユ竻鏅版挱鏀撅級 */}
               {!isVideoWallpaper && (
                 <>
                   <Knob label={t('aqua.wallpaperBlur')} value={wallpaperBlur} min={0} max={40} step={0.5} unit="px" onChange={setWallpaperBlur} />
                   <Knob label={t('aqua.wallpaperFrost')} value={wallpaperFrost} min={0} max={100} step={1} unit="%" onChange={setWallpaperFrost} />
                 </>
               )}
-              {/* 视频壁纸：模糊度 + 亮度，配上提醒 */}
+              {/* 瑙嗛澹佺焊锛氭ā绯婂害 + 浜害锛岄厤涓婃彁閱?*/}
               {isVideoWallpaper && (
                 <>
                   <Knob label={t('aqua.videoBlur')} value={videoBlur} min={0} max={40} step={0.5} unit="px" onChange={setVideoBlur} />
@@ -365,62 +365,72 @@ const codeFrost = useStore(s => s.codeFrost)
         </div>
       </div>
 
-      {/* 装饰：环境装饰 */}
+      {/* 瑁呴グ锛氱幆澧冭楗?*/}
       <div className={css.subGroup}>
         <div className={css.subTitle}>{t('aqua.decorAmbient')}</div>
         <div className={css.controls}>
-          <div className={css.row}>
-            <span className={css.rowLabel}>{t('aqua.whale')}</span>
-            <button
-              type="button"
-              className={whale ? css.toggleOn : css.toggle}
-              aria-pressed={whale}
-              onClick={() => { setWhale(!whale) }}
-            >
-              <span className={css.check}>
-                {whale && <IconCheck />}
-              </span>
-              {whale ? t('aqua.enable') : t('aqua.disable')}
-            </button>
-            <span className={css.inlineLabel} style={{ marginLeft: 16 }}>{t('aqua.emblem')}</span>
-            <button
-              type="button"
-              className={emblem ? css.toggleOn : css.toggle}
-              aria-pressed={emblem}
-              onClick={() => { setEmblem(!emblem) }}
-            >
-              <span className={css.check}>
-                {emblem && <IconCheck />}
-              </span>
-              {emblem ? t('aqua.enable') : t('aqua.disable')}
-            </button>
+          <div className={css.row} style={{ flexWrap: 'wrap', gap: '16px 24px' }}>
+            <div style={{ display: 'inline-flex', alignItems: 'center', gap: 10 }}>
+              <span className={css.rowLabel}>{t('aqua.whale')}</span>
+              <button
+                type="button"
+                className={whale ? css.toggleOn : css.toggle}
+                aria-pressed={whale}
+                onClick={() => { setWhale(!whale) }}
+              >
+                <span className={css.check}>
+                  {whale && <IconCheck />}
+                </span>
+                {whale ? t('aqua.enable') : t('aqua.disable')}
+              </button>
+            </div>
+            <div style={{ display: 'inline-flex', alignItems: 'center', gap: 10 }}>
+              <span className={css.rowLabel}>{t('aqua.emblem')}</span>
+              <button
+                type="button"
+                className={emblem ? css.toggleOn : css.toggle}
+                aria-pressed={emblem}
+                onClick={() => { setEmblem(!emblem) }}
+              >
+                <span className={css.check}>
+                  {emblem && <IconCheck />}
+                </span>
+                {emblem ? t('aqua.enable') : t('aqua.disable')}
+              </button>
+            </div>
           </div>
-          <div className={css.row}>
-            <span className={css.rowLabel}>{t('aqua.critters')}</span>
-            <button
-              type="button"
-              className={critters ? css.toggleOn : css.toggle}
-              aria-pressed={critters}
-              onClick={() => { setCritters(!critters) }}
-            >
-              <span className={css.check}>
-                {critters && <IconCheck />}
-              </span>
-              {critters ? t('aqua.enable') : t('aqua.disable')}
-            </button>
-            <span className={css.inlineLabel} style={{ marginLeft: 16 }}>{t('aqua.emblemCritters')}</span>
-            <button
-              type="button"
-              className={emblemCritters ? css.toggleOn : css.toggle}
-              aria-pressed={emblemCritters}
-              onClick={() => { setEmblemCritters(!emblemCritters) }}
-            >
-              <span className={css.check}>
-                {emblemCritters && <IconCheck />}
-              </span>
-              {emblemCritters ? t('aqua.enable') : t('aqua.disable')}
-            </button>
+
+          <div className={css.row} style={{ flexWrap: 'wrap', gap: '16px 24px' }}>
+            <div style={{ display: 'inline-flex', alignItems: 'center', gap: 10 }}>
+              <span className={css.rowLabel}>{t('aqua.critters')}</span>
+              <button
+                type="button"
+                className={critters ? css.toggleOn : css.toggle}
+                aria-pressed={critters}
+                onClick={() => { setCritters(!critters) }}
+              >
+                <span className={css.check}>
+                  {critters && <IconCheck />}
+                </span>
+                {critters ? t('aqua.enable') : t('aqua.disable')}
+              </button>
+            </div>
+            <div style={{ display: 'inline-flex', alignItems: 'center', gap: 10 }}>
+              <span className={css.rowLabel}>{t('aqua.emblemCritters')}</span>
+              <button
+                type="button"
+                className={emblemCritters ? css.toggleOn : css.toggle}
+                aria-pressed={emblemCritters}
+                onClick={() => { setEmblemCritters(!emblemCritters) }}
+              >
+                <span className={css.check}>
+                  {emblemCritters && <IconCheck />}
+                </span>
+                {emblemCritters ? t('aqua.enable') : t('aqua.disable')}
+              </button>
+            </div>
           </div>
+
           <div className={css.row}>
             <span className={css.rowLabel}>{t('aqua.mesh')}</span>
             <button
@@ -475,7 +485,7 @@ const codeFrost = useStore(s => s.codeFrost)
         </div>
       )}
 
-      {/* 字体：中英文分别自定义（空值 = 默认栈） */}
+      {/* 瀛椾綋锛氫腑鑻辨枃鍒嗗埆鑷畾涔夛紙绌哄€?= 榛樿鏍堬級 */}
       <div className={css.subGroup}>
         <div className={css.subTitle}>{t('aqua.fontGroup')}</div>
         <div className={css.controls}>
@@ -496,7 +506,7 @@ const codeFrost = useStore(s => s.codeFrost)
               label={t('aqua.fontCjk')}
               value={fontCjk}
               builtin={BUILTIN_CJK_FONTS}
-              defaultName="微软雅黑"
+              defaultName="寰蒋闆呴粦"
               cjk
               t={t}
               onChange={setFontCjk}

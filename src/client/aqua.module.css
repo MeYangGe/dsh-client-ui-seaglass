@@ -250,8 +250,8 @@
 }
 
 [data-dsh-aqua] [data-dsh-aqua-whale][data-dsh-aqua-emblem-canvas] {
-  mix-blend-mode: screen;
-  opacity: 0.96;
+  mix-blend-mode: normal !important;
+  opacity: 1 !important;
 }
 
 [data-dsh-aqua] [data-dsh-aqua-whale][data-scheme='light']:not([data-dsh-aqua-emblem-canvas]) {

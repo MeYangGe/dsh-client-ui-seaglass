@@ -640,7 +640,7 @@ export class AquaLayer {
         const key = event.key
         if (key !== null && (key in NUMERIC_KEYS || key === BACKGROUND_KEY || key === WALLPAPER_KEY || key === MODE_KEY || key === WHALE_KEY || key === CRITTERS_KEY || key === EMBLEM_KEY || key === EMBLEM_CRITTERS_KEY || key === MESH_KEY || key === SPOTLIGHT_KEY || key === PRESS_KEY || key === FONT_LATIN_KEY || key === FONT_CJK_KEY)) {
           this.reloadSettings()
-          if (this.enabled) { this.applySettings(); this.applyTokens(); this.applyFluidPalettes(); this.syncWhale() }
+          if (this.enabled) { this.applySettings(); this.applyTokens(); this.applyFluidPalettes(); this.syncWhale(); this.syncEmblem(); this.syncMesh() }
         }
       }
       window.addEventListener('storage', onStorage)
