@@ -506,7 +506,7 @@ const codeFrost = useStore(s => s.codeFrost)
               label={t('aqua.fontCjk')}
               value={fontCjk}
               builtin={BUILTIN_CJK_FONTS}
-              defaultName="寰蒋闆呴粦"
+              defaultName="微软雅黑"
               cjk
               t={t}
               onChange={setFontCjk}
